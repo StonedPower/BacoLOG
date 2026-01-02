@@ -1,0 +1,6 @@
+{
+    "auto_refresh": true,
+    "refresh_interval": 10,
+    "max_lines": 2000,
+    "dashboard_host": "BacoLOG"
+}
