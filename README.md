@@ -153,7 +153,7 @@ This project is licensed under the MIT License.
 - Inspired by syslog monitoring needs for multi-host environments
 
 
-# This project was 1000% vibe-coded, I’m a network engineer not a programmer 🤷🏽‍♂️
+### This project was 1000% vibe-coded, I’m a network engineer not a programmer 🤷🏽‍♂️
 
 
 
