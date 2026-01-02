@@ -26,7 +26,7 @@
 1. Clone the repository into your web server:
 
 ```bash
-git clone https://github.com/yourusername/bacolog.git /var/www/html/bacolog
+git clone https://github.com/StonedPower/BacoLOG /var/www/html/bacolog
 ```
 
 2. Make sure your PHP environment is running (tested on **PHP-FPM 8.2**).  
@@ -150,6 +150,10 @@ This project is licensed under the MIT License.
 ## Acknowledgements
 
 - Built with **PHP-FPM** and **flexible CSS layouts**  
-- Inspired by syslog monitoring needs for multi-host environments  
-"""
+- Inspired by syslog monitoring needs for multi-host environments
+
+
+# This project was 1000% vibe-coded, I’m a network engineer not a programmer 🤷🏽‍♂️
+
+
 
