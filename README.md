@@ -213,7 +213,7 @@ nginx -t && systemctl reload nginx
 ## Acknowledgment 
 
 This whole project is vibe coded using AI. 
-I’m not a programmer, but know somewhat php, I’ve checked the code over, but I cannot guarantee that there are some errors. 
+I’m not a programmer, but know somewhat php, I’ve checked the code over, but I cannot guarantee anything. 
 
 ### **Warning** 
 
