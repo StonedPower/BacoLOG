@@ -1,4 +1,3 @@
-
 # BacoLOG
 
 BacoLOG is a web-based syslog monitoring and viewer tool. 
@@ -66,8 +65,8 @@ chown -R www-data:www-data /var/log/remote
 
 ### Base URL
 
-```
-http://<ip>/api
+```bash
+http://yourserver/api
 ```
 
 Replace `yourserver` with your domain or IP.
@@ -81,7 +80,7 @@ Returns the HTML documentation for the API.
 **Example Request:**
 
 ```bash
-curl http://<ip>/api/
+curl http://yourserver/api/
 ```
 
 #### GET /api/stats
@@ -96,7 +95,7 @@ Returns:
 **Example Request:**
 
 ```bash
-curl http://<ip>/api/stats
+curl http://yourserver/api/stats
 ```
 
 **Example Response:**
@@ -142,7 +141,7 @@ Returns system health and uptime.
 **Example Request:**
 
 ```bash
-curl http://<ip>/api/health
+curl http://yourserver/api/health
 ```
 
 **Example Response:**
