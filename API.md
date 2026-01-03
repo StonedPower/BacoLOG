@@ -104,7 +104,7 @@ curl http://yourserver/api/health
   - `severities` — object with individual severity counts
   - `last_log` — string containing the last log entry for that host
 
-### Health API (`/api/health`)
+#### Health API (`/api/health`)
 
 - `status` — `"ok"` if system is healthy
 - `time` — ISO 8601 timestamp
