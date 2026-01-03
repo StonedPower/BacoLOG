@@ -13,14 +13,9 @@ It provides:
 - [Installation](#installation)
 - [Web Interface](#web-interface)
 - [API Documentation](API.md)
-  - [Base URL](API.md#base-url)
-  - [Endpoints](API.md#endpoints)
-  - [Request Examples](API.md#request-examples)
-  - [Response Examples](API.md#response-examples)
-  - [JSON Structure](API.md#json-structure)
 - [Setup](#setup)
 - [Nginx Configuration](#nginx-configuration)
-- [License](#license)
+- [Acknowledgment](#acknowledgment)
 
 ## Overview
 
