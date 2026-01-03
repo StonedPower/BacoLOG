@@ -12,7 +12,7 @@ It provides:
 - [Overview](#overview)
 - [Installation](#installation)
 - [Web Interface](#web-interface)
-- [API Documentation](API.md)
+- [API Documentation](docs/API.md)
 - [Setup](#setup)
 - [Nginx Configuration](#nginx-configuration)
 - [Acknowledgment](#acknowledgment)
