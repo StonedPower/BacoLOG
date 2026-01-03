@@ -210,7 +210,19 @@ server {
 nginx -t && systemctl reload nginx
 ```
 
-## License
+## Acknowledgment 
 
-MIT License – see [LICENSE](LICENSE) for details.
+This whole project is vibe coded using AI. 
+I’m not a programmer, but know somewhat php, I’ve checked the code over, but I cannot guarantee that there are some errors. 
+
+### **Warning** 
+
+Do not expose this to the internet without proper authentication. 
+
+I am **NOT** responsible for any hacks, data loss or whatever.  
+
+**YOU ARE WARNED** 
+
+
+
 
