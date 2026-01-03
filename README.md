@@ -1,159 +1,217 @@
+
 # BacoLOG
 
-**BacoLOG** is a lightweight, mobile-friendly PHP syslog viewer and dashboard. It allows you to monitor remote syslog files, filter by severity, and get a quick overview of system logs across multiple hosts. All configuration is handled via a static JSON file, making it easy to deploy and maintain.
+BacoLOG is a web-based syslog monitoring and viewer tool. 
 
----
+It provides:
+- Live log viewing per host
+- Severity counts and dashboards
+- Mobile-friendly layout
+- Read-only API access for automation and dashboards
 
-## Features
+## Table of Contents
 
-- ✅ **Dashboard overview**: shows total hosts and logs per severity (`emerg`, `alert`, `crit`, `error`, `warn`, `notice`, `info`, `debug`)  
-- ✅ **Viewer**: per-host logs with severity filters and “ALL” button  
-- ✅ **Newest logs on top** for quick access  
-- ✅ **Mobile-friendly layout** — works on any device  
-- ✅ **Static JSON configuration** — no database or settings page required  
-- ✅ **Auto-load logs** from multiple hosts (`/var/log/remote`)  
+- [Overview](#overview)
+- [Installation](#installation)
+- [Web Interface](#web-interface)
+- [API Documentation](#api-documentation)
+  - [Base URL](#base-url)
+  - [Endpoints](#endpoints)
+  - [Request Examples](#request-examples)
+  - [Response Examples](#response-examples)
+  - [JSON Structure](#json-structure)
+- [Setup](#setup)
+- [Nginx Configuration](#nginx-configuration)
+- [License](#license)
 
----
+## Overview
 
-## Screenshots
-
-*Add screenshots here for Dashboard, Viewer, and Mobile view.*
-
----
+BacoLOG collects syslog files from `/var/log/remote` and presents them in a structured, readable dashboard. It allows monitoring log severities per host and provides API access for integration with other tools or dashboards.
 
 ## Installation
 
-1. Clone the repository into your web server:
+1. Clone the repository:
 
 ```bash
-git clone https://github.com/StonedPower/BacoLOG /var/www/html/bacolog
+git clone https://github.com/StonedPower/BacoLOG.git
 ```
 
-2. Make sure your PHP environment is running (tested on **PHP-FPM 8.2**).  
+2. Place the files under your web root (e.g., `/var/www/html`):
 
-3. Ensure the web server user has **read access** to your remote logs directory:
+```
+html/
+├── index.php          # Main dashboard
+├── viewer.php         # Optional log viewer
+├── api/               # API directory
+│   ├── index.php      # API docs page
+│   ├── stats.php      # Stats API
+│   ├── health.php     # Health API
+│   └── common.php     # Shared functions
+```
+
+3. Set correct permissions so the web server can read logs:
 
 ```bash
-sudo chmod -R 755 /var/log/remote
+chmod -R 755 /var/log/remote
+chown -R www-data:www-data /var/log/remote
 ```
 
-4. Create the configuration file `includes/settings.json`:
+## Web Interface
+
+- **Dashboard** – shows global severity counts and host summaries.
+- **Viewer** – browse log files by host, newest entries on top.
+- **Mobile-compatible** – responsive layout for tablets and phones.
+
+## API Documentation
+
+### Base URL
+
+```
+http://<ip>/api
+```
+
+Replace `yourserver` with your domain or IP.
+
+### Endpoints
+
+#### GET /api/
+
+Returns the HTML documentation for the API.
+
+**Example Request:**
+
+```bash
+curl http://<ip>/api/
+```
+
+#### GET /api/stats
+
+Returns:
+
+- Global severity counts
+- Total hosts with IPs
+- Per-host severity totals
+- Last log entry per host
+
+**Example Request:**
+
+```bash
+curl http://<ip>/api/stats
+```
+
+**Example Response:**
 
 ```json
 {
-  "auto_refresh": true,
-  "refresh_interval": 10,
-  "max_lines": 2000,
-  "dashboard_host": "Production Syslog"
+  "generated_at": "2026-01-03T12:00:00+00:00",
+  "total_hosts": 3,
+  "hosts": ["192.168.1.10", "192.168.1.11", "192.168.1.12"],
+  "global_severities": {
+    "emerg": 1,
+    "alert": 0,
+    "crit": 2,
+    "error": 5,
+    "warn": 10,
+    "notice": 4,
+    "info": 20,
+    "debug": 8
+  },
+  "per_host": {
+    "192.168.1.10": {
+      "total_severities": 15,
+      "severities": {
+        "emerg": 1,
+        "alert": 0,
+        "crit": 2,
+        "error": 3,
+        "warn": 5,
+        "notice": 1,
+        "info": 2,
+        "debug": 1
+      },
+      "last_log": "<2026-01-03 12:00:00> info System check complete"
+    }
+  }
 }
 ```
 
-5. Open in your browser:
+#### GET /api/health
 
-```
-http://your-server/bacolog/index.php
-```
+Returns system health and uptime.
 
----
+**Example Request:**
 
-## Usage
-
-### Dashboard
-
-- Displays **total hosts** and counts for all severities.  
-- Fully responsive for **desktop and mobile**.  
-- Only severity overview cards are displayed; logs are not listed.
-
-### Viewer
-
-- Per-host tabs show logs for each host.  
-- Filter logs by severity (`emerg` → `debug`) or show all logs.  
-- **Newest logs appear on top**.  
-- Mobile-friendly and auto-loads all logs.
-
----
-
-## Overview Diagram
-
-**BacoLOG Flow:**
-
-- **Dashboard**  
-  - Hosts overview  
-  - Severity cards (`emerg` → `debug`)  
-  - Total hosts count  
-
-  ↓
-
-- **Hosts**  
-  - Click a host to view logs  
-
-  ↓
-
-- **Viewer**  
-  - Logs per host  
-  - Severity filters (ALL + individual)  
-  - Newest entries on top  
-  - Mobile-friendly layout  
-
----
-
-## Directory Structure
-
-```
-/bacolog
-├── index.php         # Dashboard
-├── viewer.php        # Log viewer
-├── includes
-│   ├── common.php    # Helper functions
-│   ├── navbar.php    # Navigation bar
-│   └── settings.json # Static configuration
-└── README.md
+```bash
+curl http://<ip>/api/health
 ```
 
----
+**Example Response:**
 
-## Configuration
+```json
+{
+  "status": "ok",
+  "time": "2026-01-03T12:00:00+00:00",
+  "uptime_seconds": 3600
+}
+```
 
-- `auto_refresh` (boolean) — Enable/disable auto-refresh  
-- `refresh_interval` (int) — Refresh interval in seconds  
-- `max_lines` (int) — Max log lines per file  
-- `dashboard_host` (string) — Label for dashboard  
+### JSON Structure
 
-> **Note:** All configuration is static via `settings.json`. No dynamic settings page.
+#### Stats API (`/api/stats`)
 
----
+- `generated_at` — ISO 8601 timestamp when stats were generated
+- `total_hosts` — integer, number of hosts detected
+- `hosts` — array of host IP addresses
+- `global_severities` — object with keys `emerg`, `alert`, `crit`, `error`, `warn`, `notice`, `info`, `debug` representing counts across all hosts
+- `per_host` — object keyed by host IP containing:
+  - `total_severities` — total number of log entries for that host
+  - `severities` — object with individual severity counts
+  - `last_log` — string containing the last log entry for that host
 
-## Requirements
+#### Health API (`/api/health`)
 
-- PHP >= 8.2 with FPM  
-- Web server (Nginx or Apache)  
-- Read access to `/var/log/remote`  
+- `status` — `"ok"` if system is healthy
+- `time` — ISO 8601 timestamp
+- `uptime_seconds` — integer representing system uptime in seconds
 
----
+## Setup
 
-## Contributing
+1. Clone repository and place files in web root (see Installation above).
 
-1. Fork the repository  
-2. Create a feature branch (`git checkout -b feature/awesome-feature`)  
-3. Commit your changes (`git commit -am 'Add awesome feature'`)  
-4. Push to the branch (`git push origin feature/awesome-feature`)  
-5. Open a Pull Request  
+2. Configure Nginx for PHP-FPM 8.2:
 
----
+```nginx
+server {
+    listen 80;
+    server_name bacolog.kroes.frl;
+
+    root /var/www/html;
+    index index.php;
+
+    location = /api { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/index.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
+    location = /api/ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/index.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
+    location = /api/stats { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/stats.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
+    location = /api/health { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/health.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php;
+    }
+}
+```
+
+3. Reload Nginx:
+
+```bash
+nginx -t && systemctl reload nginx
+```
 
 ## License
 
-This project is licensed under the MIT License.  
-
----
-
-## Acknowledgements
-
-- Built with **PHP-FPM** and **flexible CSS layouts**  
-- Inspired by syslog monitoring needs for multi-host environments
-
-
-### This project was 1000% vibe-coded, I’m a network engineer not a programmer 🤷🏽‍♂️
-
-
+MIT License – see [LICENSE](LICENSE) for details.
 
