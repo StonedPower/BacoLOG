@@ -1,7 +1,4 @@
 ![BacoLOG](https://cdn.kroes.frl/images/bacolog/logo-bacolog-light-500x500.png)
-
-# BacoLOG
-
 BacoLOG is a web-based syslog monitoring and viewer tool. 
 
 It provides:
