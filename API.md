@@ -1,6 +1,6 @@
-# API Documentation
+## API Documentation
 
-## Base URL
+### Base URL
 
 ```bash
 http://yourserver/api
@@ -8,9 +8,9 @@ http://yourserver/api
 
 Replace `yourserver` with your domain or IP.
 
-## Endpoints
+### Endpoints
 
-### GET /api/
+#### GET /api/
 
 Returns the HTML documentation for the API.
 
@@ -20,7 +20,7 @@ Returns the HTML documentation for the API.
 curl http://yourserver/api/
 ```
 
-### GET /api/stats
+#### GET /api/stats
 
 Returns:
 
@@ -71,7 +71,7 @@ curl http://yourserver/api/stats
 }
 ```
 
-### GET /api/health
+#### GET /api/health
 
 Returns system health and uptime.
 
@@ -91,9 +91,9 @@ curl http://yourserver/api/health
 }
 ```
 
-## JSON Structure
+### JSON Structure
 
-### Stats API (`/api/stats`)
+#### Stats API (`/api/stats`)
 
 - `generated_at` — ISO 8601 timestamp when stats were generated
 - `total_hosts` — integer, number of hosts detected
