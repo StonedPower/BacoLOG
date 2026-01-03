@@ -8,7 +8,7 @@ It provides:
 - Read-only API access for automation and dashboards
 
 ## workflows
-[![Docker Image CI](https://github.com/StonedPower/BacoLOG/actions/workflows/docker-image.yml/badge.svg)](https://github.com/StonedPower/BacoLOG/actions/workflows/docker-image.yml)
+[![Docker Image CI](https://github.com/StonedPower/BacoLOG/actions/workflows/docker-image.yml/badge.svg?branch=main&event=status)](https://github.com/StonedPower/BacoLOG/actions/workflows/docker-image.yml)
 
 ## Table of Contents
 
