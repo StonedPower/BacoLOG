@@ -33,20 +33,21 @@ git clone https://github.com/StonedPower/BacoLOG.git
 
 ```
 html/
-├── index.php                  # Main dashboard
-├── viewer.php                 # Log viewer
-├── settings.json              # Settings
-├── includes/                  # Includes directory
-│   ├── common.php             # General shared funtions directory
-│   ├── navbar.php             # Navigation bar
-├── api/                       # API directory
-│   ├── v1/                    # API version directory
-│   │   ├── api-docs.json      # API documentation file
-│   │   ├── common.php         # API shared functions
-│   │   ├── docs.php           # API documentation
-│   │   ├── health.php         # API health information
-│   │   ├── hosts.php          # API host information
-│   │   ├── stats.php          # API stats information
+├── bacolog/
+│   ├── index.php                  # Main dashboard
+│   ├── viewer.php                 # Log viewer
+│   ├── settings.json              # Settings
+│   ├── includes/                  # Includes directory
+│   │   ├── common.php             # General shared funtions directory
+│   │   ├── navbar.php             # Navigation bar
+│   ├── api/                       # API directory
+│   │   ├── v1/                    # API version directory
+│   │   │   ├── api-docs.json      # API documentation file
+│   │   │   ├── common.php         # API shared functions
+│   │   │   ├── docs.php           # API documentation
+│   │   │   ├── health.php         # API health information
+│   │   │   ├── hosts.php          # API host information
+│   │   │   ├── stats.php          # API stats information
 
 ```
 
