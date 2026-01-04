@@ -1,1 +1,0 @@
-docker stop bacolog && docker rm bacolog && docker build -t bacolog . && docker run -d --name bacolog -p 9999:80 -p 514:514 -p 514:514/udp -v ./src/html:/var/www/html -v ./src/rsyslog/rsyslog.conf:/etc/rsyslog.conf -v ./syslog:/var/log/remote bacolog && echo "build done"
