@@ -298,6 +298,7 @@ function toggleSev(button) {
             <div class="apply-clear">
                 <button type="submit">Apply</button>
                 <button type="button" onclick="window.location='viewer.php'">Clear</button>
+                <button type="button" onclick="window.location.reload()">Refresh</button>
             </div>
         </form>
 
@@ -316,7 +317,7 @@ function toggleSev(button) {
     <div class="main">
         <div class="log">
             <?php if (!$logs): ?>
-                <p>No logs found.</p>
+                <p>No logs found.</p>   
             <?php else: ?>
                 <?php foreach ($logs as $entry): ?>
                     <div class="entry sev-<?= $entry['sev'] ?>">
