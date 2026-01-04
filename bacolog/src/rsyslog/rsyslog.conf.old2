@@ -1,0 +1,14 @@
+module(load="imudp")
+input(type="imudp" port="514")
+
+template(name="RemoteFile" type="string"
+         string="/var/log/remote/%fromhost-ip%/syslog.log")
+
+template(name="IPOnlyFormat" type="string"
+         string="%timegenerated% %fromhost-ip% %syslogtag%%msg%\n")
+
+*.* action(
+    type="omfile"
+    DynaFile="RemoteFile"
+    template="IPOnlyFormat"
+)

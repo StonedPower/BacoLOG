@@ -1,0 +1,42 @@
+# Load UDP input module
+$ModLoad imudp
+
+# Define a separate ruleset for remote logs
+$RuleSet remote
+
+# Optional: Create directories automatically with proper permissions
+$umask 0022
+$DirCreateMode 0777
+$FileCreateMode 0777
+
+# Example: Different files/directories for specific IPs
+# Replace these IPs with your actual ones
+
+# Logs from 10.0.123.1 go to /var/log/remote/host1.log
+if $fromhost-ip == '10.0.123.1' then {
+    action(type="omfile" file="/var/log/syslog/baconet-internet-gwy.log")
+    stop
+}
+
+# Logs from 10.0.123.254 go to /var/log/remote/host2.log
+if $fromhost-ip == '10.0.123.254' then {
+    action(type="omfile" file="/var/log/syslog/baconet-poe-sw.log")
+    stop
+}
+
+# Logs from 10.0.0.50 go to a directory with its IP as name: /var/log/remote/10.0.0.50/messages.log
+#if $fromhost-ip == '10.0.0.50' then {
+#    action(type="omfile" dynaFile="/var/log/syslog/%fromhost-ip%/messages.log")
+#    stop
+#}
+
+# Fallback for any other remote IPs (optional, e.g., one file per IP)
+$template RemoteDynamic,"/var/log/syslog/%fromhost-ip%/messages.log"
+*.* -?RemoteDynamic
+& stop   # Stop processing after fallback
+
+# Bind UDP input to the remote ruleset
+$UDPServerRun 514
+$InputUDPServerBindRuleset remote
+
+# (Default ruleset continues for local logs as usual)
