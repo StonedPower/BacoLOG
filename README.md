@@ -63,6 +63,19 @@ chown -R www-data:www-data /var/log/remote
 2. Configure Nginx for PHP-FPM 8.2:
 
 ```nginx
+worker_processes auto;
+
+events { worker_connections 1024; }
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
+
+    sendfile on;
+
 server {
     listen 80;
     server_name bacolog.kroes.frl;
@@ -70,20 +83,54 @@ server {
     root /var/www/html;
     index index.php;
 
-    location = /api { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/index.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
-    location = /api/ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/index.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
-    location = /api/stats { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/stats.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
-    location = /api/health { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/api/health.php; fastcgi_pass unix:/run/php/php8.2-fpm.sock; }
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
+
+    # =========================
+    # API ENDPOINTS (NO REDIRECTS)
+    # =========================
+
+    location = /api/v1/stats {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/api/v1/stats.php;
+        fastcgi_pass 127.0.0.1:9000;
+    }
+
+    location = /api/v1/hosts {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/api/v1/hosts.php;
+        fastcgi_pass 127.0.0.1:9000;
+    }
+
+    location = /api/v1/health {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/api/v1/health.php;
+        fastcgi_pass 127.0.0.1:9000;
+    }
+    location = /api/v1/docs {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/api/v1/docs.php;
+        fastcgi_pass 127.0.0.1:9000;
+    }
+
+    # =========================
+    # PHP FILES (NORMAL SITE)
+    # =========================
 
     location ~ \.php$ {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_pass 127.0.0.1:9000;
     }
+
+    # =========================
+    # STATIC FILES
+    # =========================
 
     location / {
         try_files $uri $uri/ /index.php;
     }
+}
 }
 ```
 
