@@ -1,0 +1,76 @@
+[
+  {
+    "method": "GET",
+    "path": "/v1/health",
+    "description": "Get BacoLOG health status",
+    "parameters": [],
+    "response": 
+              {
+              "status": "STATUS",
+              "time": "CURRENT_TIME",
+              "uptime_seconds": "UPTIME_SECONDS",
+              "disk_free_mb": "DISK_FREE_MB",
+              "disk_total_mb": "DISK_TOTAL_MB"
+                },
+    "try_url": "https://bacolog.kroes.frl/api/v1/health"
+  },
+  {
+    "method": "GET",
+    "path": "/v1/hosts",
+    "description": "Get all hosts with IP addresses",
+    "parameters": [],
+    "response": 
+              {
+              "total_hosts": "NUMBER_HOSTS",
+              "hosts": [
+                  {
+                    "host": "HOST_NAME",
+                    "ip": "HOST_IP"
+                  }
+                ]
+              },
+    "try_url": "https://bacolog.kroes.frl/api/v1/hosts"
+  },
+
+  {
+    "method": "GET",
+    "path": "/v1/stats",
+    "description": "Get all status per host with severaties",
+    "parameters": [],
+    "response": {
+     "generated_at": "DATE",
+    "uptime_seconds": "UPTIME_SECONDS",
+    "total_hosts": "NUMBER_HOST",
+    "hosts": [
+        "IP_ADDRESSS"
+    ],
+    "global_severities": {
+        "emerg": "NUMBER",
+        "alert": "NUMBER",
+        "crit": "NUMBER",
+        "error": "NUMBER",
+        "warn": "NUMBER",
+        "notice": "NUMBER",
+        "info": "NUMBER",
+        "debug": "NUMBER"
+    },
+    "per_host": {
+        "HOSTNAME": {
+            "total_severities": "NUMBER",
+            "severities": {
+                "emerg": "NUMBER",
+                "alert": "NUMBER",
+                "crit": "NUMBER",
+                "error": "NUMBER",
+                "warn": "NUMBER",
+                "notice": "NUMBER",
+                "info": "NUMBER",
+                "debug": "NUMBER"
+            },
+            "last_log": "DATE - TIME - IP - SEVERATIES - LOG"
+        }
+      }
+  },
+    "try_url": "https://bacolog.kroes.frl/api/v1/stats"
+  }
+]
